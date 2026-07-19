@@ -1,0 +1,21 @@
+body {
+  width: 360px;
+  min-height: 300px;
+  margin: 0;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #1f1f1f;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
