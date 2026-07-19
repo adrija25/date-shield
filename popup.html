@@ -8,16 +8,36 @@
 </head>
 <body>
   <main>
-    <h1>Date Shield</h1>
-    <p>Know before you trust.</p>
+    <header>
+      <h1>Date Shield</h1>
+      <p class="tagline">Know before you trust.</p>
+    </header>
 
-    <button id="analyzeButton" type="button">
-      Analyze This Profile
-    </button>
+    <section class="analysis-section">
+      <button id="analyzeButton" type="button">
+        Analyze This Profile
+      </button>
 
-    <p id="statusMessage">
-      Review explainable dating safety and romance scam warning signals.
-    </p>
+      <p class="helper-text">
+        Select specific profile text before analyzing for more focused results.
+        If no text is selected, Date Shield will analyze the visible page.
+      </p>
+    </section>
+
+    <section id="resultSection" class="result-section">
+      <h2>Safety Check</h2>
+
+      <p id="statusMessage">
+        Ready to review explainable dating safety and romance scam warning signals.
+      </p>
+    </section>
+
+    <footer>
+      <p class="disclaimer">
+        Date Shield provides informational warning signals only.
+        Results do not prove that a person is deceptive, fraudulent, safe, or authentic.
+      </p>
+    </footer>
   </main>
 
   <script src="popup.js"></script>
