@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Date Shield",
+  "version": "1.0.0",
+  "description": "A privacy-conscious dating safety assistant that helps identify explainable romance scam and profile consistency warning signals.",
+  "action": {
+    "default_title": "Date Shield"
+  }
+}
