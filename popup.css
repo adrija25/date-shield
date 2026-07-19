@@ -1,42 +1,95 @@
 body {
-  width: 360px;
-  min-height: 300px;
+  width: 380px;
+  min-height: 420px;
   margin: 0;
-  padding: 24px;
+  padding: 0;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
-  background: #ffffff;
+  background: #f7f5ff;
   color: #1f1f1f;
 }
 
 main {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
+  padding: 24px;
+}
+
+header {
+  text-align: center;
 }
 
 h1 {
   margin: 0;
   font-size: 28px;
+  color: #4b2e83;
 }
 
-p {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.5;
+.tagline {
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: bold;
+  color: #6b5b7b;
+}
+
+.analysis-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 button {
   width: 100%;
   padding: 14px 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  background: #4b2e83;
+  color: #ffffff;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.helper-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #666666;
+}
+
+.result-section {
+  padding: 16px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #ded8eb;
+}
+
+.result-section h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #4b2e83;
 }
 
 #statusMessage {
+  margin: 0;
   font-size: 14px;
+  line-height: 1.6;
+  color: #333333;
+}
+
+footer {
+  border-top: 1px solid #ded8eb;
+  padding-top: 14px;
+}
+
+.disclaimer {
+  margin: 0;
+  font-size: 11px;
   line-height: 1.5;
+  color: #777777;
 }
