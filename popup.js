@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusMessage = document.getElementById("statusMessage");
 
   analyzeButton.addEventListener("click", async () => {
-    statusMessage.textContent = "Analyzing visible profile information...";
+    statusMessage.textContent = "Analyzing profile information...";
 
     try {
       const [tab] = await chrome.tabs.query({
@@ -21,7 +21,13 @@ document.addEventListener("DOMContentLoaded", () => {
           tabId: tab.id
         },
         func: () => {
-          const pageText = document.body.innerText.toLowerCase();
+          const selectedText = window.getSelection().toString().trim();
+
+          const sourceText = selectedText
+            ? selectedText
+            : document.body.innerText;
+
+          const pageText = sourceText.toLowerCase();
 
           const signals = [
             {
@@ -117,7 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
           return {
             cautionLevel: cautionLevel,
             signalCount: detectedSignals.length,
-            signals: detectedSignals
+            signals: detectedSignals,
+            analysisSource: selectedText
+              ? "Selected profile text"
+              : "Visible page text"
           };
         }
       });
@@ -132,12 +141,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (analysis.signalCount === 0) {
         statusMessage.textContent =
-          "Caution Level: Low — No matching warning signals were found in the visible page text. This does not guarantee that the profile is safe or authentic.";
+          analysis.analysisSource +
+          ": Caution Level: Low — No matching warning signals were found. This does not guarantee that the profile is safe or authentic.";
         return;
       }
 
       statusMessage.textContent =
-        "Caution Level: " +
+        analysis.analysisSource +
+        ": Caution Level: " +
         analysis.cautionLevel +
         " — " +
         analysis.signalCount +
