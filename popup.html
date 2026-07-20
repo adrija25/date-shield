@@ -15,27 +15,44 @@
 
     <section class="analysis-section">
       <button id="analyzeButton" type="button">
-        Analyze This Profile
+        Analyze Selected Text
       </button>
 
       <p class="helper-text">
-        Select specific profile text before analyzing for more focused results.
-        If no text is selected, Date Shield will analyze the visible page.
+        Highlight dating profile or conversation text on the page,
+        then run Date Shield to review explainable dating-safety
+        and romance-scam warning signals.
       </p>
     </section>
 
     <section id="resultSection" class="result-section">
       <h2>Safety Check</h2>
 
+      <div id="cautionResult" class="caution-result" hidden>
+        <span class="result-label">Caution Level</span>
+        <strong id="cautionLevel"></strong>
+      </div>
+
+      <div id="signalsContainer" hidden>
+        <h3>Signals Found</h3>
+        <div id="signalsList"></div>
+      </div>
+
+      <div id="nextStepsContainer" hidden>
+        <h3>Recommended Next Steps</h3>
+        <div id="nextStepsList"></div>
+      </div>
+
       <p id="statusMessage">
-        Ready to review explainable dating safety and romance scam warning signals.
+        Select profile or conversation text to begin.
       </p>
     </section>
 
     <footer>
       <p class="disclaimer">
         Date Shield provides informational warning signals only.
-        Results do not prove that a person is deceptive, fraudulent, safe, or authentic.
+        Results do not prove that a person is deceptive, fraudulent,
+        safe, or authentic.
       </p>
     </footer>
   </main>
