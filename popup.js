@@ -42,6 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
     nextStepsList.innerHTML = "";
   }
 
+  const DATE_SHIELD_CHECKOUT_URL =
+    "https://scam-shield-2sn.pages.dev/date-shield-checkout.html";
+
+  upgradeButton.addEventListener("click", () => {
+    chrome.tabs.create({
+      url: DATE_SHIELD_CHECKOUT_URL
+    });
+  });
+
   analyzeButton.addEventListener("click", async () => {
     resetResults();
 
