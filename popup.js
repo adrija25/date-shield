@@ -2,6 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const analyzeButton = document.getElementById("analyzeButton");
   const statusMessage = document.getElementById("statusMessage");
 
+  const planBadge = document.getElementById("planBadge");
+  const proUpgradeSection = document.getElementById("proUpgradeSection");
+  const upgradeButton = document.getElementById("upgradeButton");
+  const activateButton = document.getElementById("activateButton");
+
   const cautionResult = document.getElementById("cautionResult");
   const cautionLevel = document.getElementById("cautionLevel");
 
@@ -10,6 +15,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const nextStepsContainer = document.getElementById("nextStepsContainer");
   const nextStepsList = document.getElementById("nextStepsList");
+
+  // Temporary access state.
+  // This will later be replaced by secure backend activation validation.
+  let isPro = false;
+
+  function updatePlanUI() {
+    if (isPro) {
+      planBadge.textContent = "PRO";
+      proUpgradeSection.hidden = true;
+    } else {
+      planBadge.textContent = "FREE";
+      proUpgradeSection.hidden = false;
+    }
+  }
+
+  updatePlanUI();
 
   function resetResults() {
     cautionResult.hidden = true;
