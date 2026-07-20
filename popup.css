@@ -201,3 +201,86 @@ footer {
   line-height: 1.4;
   color: #777777;
 }
+/* Free / Pro plan badge */
+
+.plan-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: #ede7f7;
+  color: #4b2e83;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.6px;
+}
+
+
+/* Date Shield Pro upgrade section */
+
+.pro-upgrade-section {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 10px;
+  background: #f7f5ff;
+  border: 1px solid #d8cfeb;
+}
+
+.pro-upgrade-header {
+  margin-bottom: 7px;
+}
+
+.pro-label {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: #4b2e83;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.pro-upgrade-title {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2f2f2f;
+}
+
+.pro-upgrade-text {
+  margin: 0 0 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #555555;
+}
+
+.upgrade-button {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 11px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #4b2e83;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.activate-button {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #4b2e83;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #4b2e83;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.upgrade-button:hover,
+.activate-button:hover {
+  opacity: 0.92;
+}
