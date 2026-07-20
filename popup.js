@@ -488,7 +488,10 @@ document.addEventListener("DOMContentLoaded", () => {
         " explainable warning signal(s) found in the selected text.";
 
       signalsContainer.hidden = false;
-      nextStepsContainer.hidden = false;
+
+      // FREE users can see detected signal names.
+      // PRO users can also see detailed explanations and recommended next steps.
+      nextStepsContainer.hidden = !isPro;
 
       const uniqueRecommendations = new Set();
 
@@ -500,25 +503,34 @@ document.addEventListener("DOMContentLoaded", () => {
         signalTitle.className = "signal-title";
         signalTitle.textContent = signal.category;
 
-        const signalExplanation = document.createElement("p");
-        signalExplanation.className = "signal-explanation";
-        signalExplanation.textContent = signal.explanation;
-
         signalCard.appendChild(signalTitle);
-        signalCard.appendChild(signalExplanation);
+
+        // Detailed explanations are available only to Pro users.
+        if (isPro) {
+          const signalExplanation = document.createElement("p");
+          signalExplanation.className = "signal-explanation";
+          signalExplanation.textContent = signal.explanation;
+
+          signalCard.appendChild(signalExplanation);
+
+          if (signal.recommendation) {
+            uniqueRecommendations.add(signal.recommendation);
+          }
+        }
 
         signalsList.appendChild(signalCard);
-
-        uniqueRecommendations.add(signal.recommendation);
       });
 
-      uniqueRecommendations.forEach((recommendation) => {
-        const nextStep = document.createElement("p");
-        nextStep.className = "next-step-item";
-        nextStep.textContent = recommendation;
+      // Recommended next steps are available only to Pro users.
+      if (isPro) {
+        uniqueRecommendations.forEach((recommendation) => {
+          const nextStep = document.createElement("p");
+          nextStep.className = "next-step-item";
+          nextStep.textContent = recommendation;
 
-        nextStepsList.appendChild(nextStep);
-      });
+          nextStepsList.appendChild(nextStep);
+        });
+      }
     } catch (error) {
       console.error("Date Shield analysis error:", error);
 
