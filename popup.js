@@ -69,17 +69,57 @@ document.addEventListener("DOMContentLoaded", () => {
     return installationId;
   }
 
-  function restoreLocalProAccess() {
+  async function revalidateStoredProAccess() {
     const savedToken = localStorage.getItem(STORAGE_KEYS.activationToken);
     const savedProStatus = localStorage.getItem(STORAGE_KEYS.proActive);
+    const savedInstallationId = localStorage.getItem(STORAGE_KEYS.installationId);
 
-    if (savedToken && savedProStatus === "true") {
+    if (
+      !savedToken ||
+      savedProStatus !== "true" ||
+      !savedInstallationId
+    ) {
+      isPro = false;
+      updatePlanUI();
+      return;
+    }
+
+    try {
+      const response = await fetch(DATE_SHIELD_ACTIVATION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          token: savedToken,
+          installationId: savedInstallationId
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok || !data.active) {
+        isPro = false;
+        localStorage.setItem(STORAGE_KEYS.proActive, "false");
+        updatePlanUI();
+        return;
+      }
+
+      isPro = true;
+      localStorage.setItem(STORAGE_KEYS.proActive, "true");
+      updatePlanUI();
+    } catch (error) {
+      console.error("Date Shield Pro revalidation error:", error);
+
+      // Preserve the last successfully validated local Pro state if the
+      // backend is temporarily unreachable. A failed network request does
+      // not create a new activation or erase the user's activation.
       isPro = true;
       updatePlanUI();
     }
   }
 
-  restoreLocalProAccess();
+  revalidateStoredProAccess();
 
   upgradeButton.addEventListener("click", () => {
     chrome.tabs.create({
