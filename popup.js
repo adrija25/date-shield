@@ -23,11 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
         func: () => {
           const selectedText = window.getSelection().toString().trim();
 
-          const sourceText = selectedText
-            ? selectedText
-            : document.body.innerText;
+          if (!selectedText) {
+            return {
+              requiresSelection: true
+            };
+          }
 
-          const pageText = sourceText.toLowerCase();
+          const pageText = selectedText.toLowerCase();
 
           const signals = [
             {
@@ -121,12 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           return {
+            requiresSelection: false,
             cautionLevel: cautionLevel,
             signalCount: detectedSignals.length,
             signals: detectedSignals,
-            analysisSource: selectedText
-              ? "Selected profile text"
-              : "Visible page text"
+            analysisSource: "Selected profile text"
           };
         }
       });
@@ -136,6 +137,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!analysis) {
         statusMessage.textContent =
           "Date Shield could not analyze this page.";
+        return;
+      }
+
+      if (analysis.requiresSelection) {
+        statusMessage.textContent =
+          "Please highlight the profile or conversation text you want to check, then click Analyze This Profile again.";
         return;
       }
 
