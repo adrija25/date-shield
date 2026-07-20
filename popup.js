@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const proUpgradeSection = document.getElementById("proUpgradeSection");
   const upgradeButton = document.getElementById("upgradeButton");
   const activateButton = document.getElementById("activateButton");
+  const activationPanel = document.getElementById("activationPanel");
+  const activationKey = document.getElementById("activationKey");
+  const submitActivationButton = document.getElementById("submitActivationButton");
+  const activationMessage = document.getElementById("activationMessage");
 
   const cautionResult = document.getElementById("cautionResult");
   const cautionLevel = document.getElementById("cautionLevel");
@@ -45,10 +49,100 @@ document.addEventListener("DOMContentLoaded", () => {
   const DATE_SHIELD_CHECKOUT_URL =
     "https://scam-shield-2sn.pages.dev/date-shield-checkout.html";
 
+  const DATE_SHIELD_ACTIVATION_URL =
+    "https://arthiva-labs.pages.dev/api/activate-date-shield";
+
+  const STORAGE_KEYS = {
+    installationId: "dateShieldInstallationId",
+    activationToken: "dateShieldActivationToken",
+    proActive: "dateShieldProActive"
+  };
+
+  function getOrCreateInstallationId() {
+    let installationId = localStorage.getItem(STORAGE_KEYS.installationId);
+
+    if (!installationId) {
+      installationId = crypto.randomUUID();
+      localStorage.setItem(STORAGE_KEYS.installationId, installationId);
+    }
+
+    return installationId;
+  }
+
+  function restoreLocalProAccess() {
+    const savedToken = localStorage.getItem(STORAGE_KEYS.activationToken);
+    const savedProStatus = localStorage.getItem(STORAGE_KEYS.proActive);
+
+    if (savedToken && savedProStatus === "true") {
+      isPro = true;
+      updatePlanUI();
+    }
+  }
+
+  restoreLocalProAccess();
+
   upgradeButton.addEventListener("click", () => {
     chrome.tabs.create({
       url: DATE_SHIELD_CHECKOUT_URL
     });
+  });
+
+  activateButton.addEventListener("click", () => {
+    activationPanel.hidden = !activationPanel.hidden;
+
+    if (!activationPanel.hidden) {
+      activationKey.focus();
+    }
+  });
+
+  submitActivationButton.addEventListener("click", async () => {
+    const token = activationKey.value.trim();
+
+    if (!token) {
+      activationMessage.textContent = "Please enter your Date Shield Pro activation key.";
+      return;
+    }
+
+    submitActivationButton.disabled = true;
+    activationMessage.textContent = "Checking your activation key...";
+
+    try {
+      const installationId = getOrCreateInstallationId();
+
+      const response = await fetch(DATE_SHIELD_ACTIVATION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          token,
+          installationId
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok || !data.active) {
+        throw new Error(
+          data.error || "Date Shield Pro activation could not be verified."
+        );
+      }
+
+      localStorage.setItem(STORAGE_KEYS.activationToken, token);
+      localStorage.setItem(STORAGE_KEYS.proActive, "true");
+
+      isPro = true;
+      updatePlanUI();
+
+      activationMessage.textContent = "Date Shield Pro activated successfully.";
+    } catch (error) {
+      console.error("Date Shield activation error:", error);
+
+      activationMessage.textContent =
+        error.message || "Date Shield Pro activation could not be completed.";
+    } finally {
+      submitActivationButton.disabled = false;
+    }
   });
 
   analyzeButton.addEventListener("click", async () => {
